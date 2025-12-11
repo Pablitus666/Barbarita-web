@@ -172,7 +172,7 @@
   }
 
   // ======================================================
-  // NETLIFY FORM SUBMIT (sin redirección)
+  // NETLIFY FORM SUBMIT + TELEGRAM (vía Netlify Function)
   // ======================================================
   const form = document.getElementById("contact-form");
 
@@ -181,22 +181,42 @@
       e.preventDefault();
 
       const formData = new FormData(form);
-
-      // IMPORTANTE: convertir FormData → x-www-form-urlencoded
-      const encoded = new URLSearchParams(formData).toString();
+      const name = formData.get("name") || 'No especificado';
+      const email = formData.get("email") || 'No especificado';
+      const message = formData.get("message") || 'No especificado';
 
       try {
-        await fetch("/", {
+        // Preparamos las dos tareas que se ejecutarán en paralelo
+        const netlifyPromise = fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encoded
+          body: new URLSearchParams(formData).toString()
         });
 
-        showToast();
+        const telegramPromise = fetch("/.netlify/functions/send-telegram", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        // Esperamos a que ambas terminen
+        const [netlifyResponse, telegramResponse] = await Promise.all([
+          netlifyPromise,
+          telegramPromise
+        ]);
+
+        // Verificamos que ambas respuestas son correctas
+        if (!netlifyResponse.ok || !telegramResponse.ok) {
+            // Si alguna falla, lanzamos un error para que lo capture el catch
+            throw new Error(`Error en el envío: Netlify ${netlifyResponse.status}, Telegram ${telegramResponse.status}`);
+        }
+
+        showToast("Mensaje enviado correctamente");
         form.reset();
+
       } catch (err) {
         showToast("Hubo un error. Intenta nuevamente.");
-        console.error(err);
+        console.error("Error al enviar formulario:", err);
       }
     });
   }
