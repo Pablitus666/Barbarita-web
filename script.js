@@ -211,4 +211,37 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+// ======================================================
+// CONFIRMACIÓN DE FORMULARIO NETLIFY
+// ======================================================
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form[data-netlify]");
+  if (!form) return;
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString()
+    })
+      .then(() => {
+        // Limpia el formulario
+        form.reset();
+
+        // Muestra mensaje elegante (sin cambiar estilos)
+        alert("Gracias. Tu mensaje fue enviado correctamente.");
+
+        // Si quieres un mensaje visual en la página en vez del alert:
+        // document.getElementById("form-success").classList.add("visible");
+      })
+      .catch(err => {
+        alert("Hubo un error al enviar tu mensaje.");
+        console.error("Error:", err);
+      });
+  });
+});
 
