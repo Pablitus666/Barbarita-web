@@ -172,7 +172,7 @@
   }
 
   // ======================================================
-  // NETLIFY FORM SUBMIT + TELEGRAM (vía Netlify Function)
+  // FORM SUBMIT DIRECTO A TELEGRAM (vía Netlify Function)
   // ======================================================
   const form = document.getElementById("contact-form");
 
@@ -186,29 +186,16 @@
       const message = formData.get("message") || 'No especificado';
 
       try {
-        // Preparamos las dos tareas que se ejecutarán en paralelo
-        const netlifyPromise = fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(formData).toString()
-        });
-
-        const telegramPromise = fetch("/.netlify/functions/send-telegram", {
+        // Tarea única: enviar directamente a la función de Telegram
+        const response = await fetch("/.netlify/functions/send-telegram", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, message })
         });
 
-        // Esperamos a que ambas terminen
-        const [netlifyResponse, telegramResponse] = await Promise.all([
-          netlifyPromise,
-          telegramPromise
-        ]);
-
-        // Verificamos que ambas respuestas son correctas
-        if (!netlifyResponse.ok || !telegramResponse.ok) {
-            // Si alguna falla, lanzamos un error para que lo capture el catch
-            throw new Error(`Error en el envío: Netlify ${netlifyResponse.status}, Telegram ${telegramResponse.status}`);
+        // Si la función de Netlify falla, lanzamos un error
+        if (!response.ok) {
+          throw new Error(`Error en el servidor: ${response.status}`);
         }
 
         showToast("Mensaje enviado correctamente");
