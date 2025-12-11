@@ -144,7 +144,6 @@
 <section class="contact-section section">
     <h2 class="section-title centered-title">CONTÁCTAME</h2>
 
-    <!-- Modal de Confirmación Profesional -->
     <div id="modal-success" class="modal hidden" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-icon">✔</div>
@@ -154,7 +153,6 @@
         </div>
     </div>
 
-    <!-- Formulario compatible con Netlify -->
     <form 
         name="contacto"
         method="POST"
@@ -183,7 +181,6 @@
 
 <script src="./script.js"></script>
 
-<!-- Script mejorado y corregido PARA NETLIFY + MODAL -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -202,9 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const data = {
             "form-name": "contacto",
-            "name": form.name.value,
-            "email": form.email.value,
-            "message": form.message.value
+            "name": form.querySelector("#name").value,
+            "email": form.querySelector("#email").value,
+            "message": form.querySelector("#message").value
         };
 
         fetch("/", {
