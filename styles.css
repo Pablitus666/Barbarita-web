@@ -549,7 +549,7 @@ button[type="submit"]:hover {
     z-index: 99999;
 }
 
-#toast.show {
+#toast.toast-show {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
