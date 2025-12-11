@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Barbarita</title>
 
@@ -18,6 +18,7 @@
     <link rel="preload" href="./images/banner.webp" as="image">
     <link rel="preload" href="./images/perfil.webp" as="image">
 
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./fonts/fonts.css">
 
@@ -38,7 +39,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mi Página de Presentación y Contacto">
     <meta name="twitter:description" content="Acceso a mis redes sociales, contacto y una galería moderna y accesible.">
-    <meta name="twitter:image" content="https://tudominio-real.com/images/preview.webp">
+    <meta name="twitter:image" content="https://barbarita.netlify.app/images/preview.webp">
 
     <!-- JSON-LD optimizado -->
     <script type="application/ld+json">
@@ -66,15 +67,14 @@
 <!-- Botón de tema -->
 <div class="theme-toggle">
     <button id="theme-toggle" aria-pressed="false" title="Cambiar tema">
-        <img id="theme-icon" src="./images/moon.png" alt="Icono tema" loading="lazy">
+        <img id="theme-icon" src="./images/moon.png" alt="Cambiar tema" loading="lazy">
     </button>
 </div>
 
 <header class="header">
-
     <div class="header-banner parallax">
         <img src="./images/banner.webp"
-             alt="Banner profesional de Lady Sedux"
+             alt="Banner Barbarita"
              class="banner-img"
              onerror="this.src='./images/offline-image.png'" />
     </div>
@@ -98,32 +98,30 @@
     <h2 class="section-title centered-title">MIS ENLACES</h2>
 
     <div class="links-list">
-
         <a href="https://www.instagram.com/bar_bara999999/" class="link-btn" target="_blank" rel="noopener noreferrer">
-            <img src="./images/instagram.webp" alt="Icono Instagram" class="icon">
+            <img src="./images/instagram.webp" alt="Instagram" class="icon">
             <span>INSTAGRAM</span>
         </a>
 
         <a href="https://facebook.com" class="link-btn" target="_blank" rel="noopener noreferrer">
-            <img src="./images/facebook.webp" alt="Icono Facebook" class="icon">
+            <img src="./images/facebook.webp" alt="Facebook" class="icon">
             <span>FACEBOOK</span>
         </a>
 
         <a href="https://tiktok.com" class="link-btn" target="_blank" rel="noopener noreferrer">
-            <img src="./images/tiktok.webp" alt="Icono TikTok" class="icon">
+            <img src="./images/tiktok.webp" alt="TikTok" class="icon">
             <span>TIKTOK</span>
         </a>
 
         <a href="https://telegram.org" class="link-btn" target="_blank" rel="noopener noreferrer">
-            <img src="./images/telegram.webp" alt="Icono Telegram" class="icon">
+            <img src="./images/telegram.webp" alt="Telegram" class="icon">
             <span>TELEGRAM</span>
         </a>
 
         <a href="https://onlyfans.com" class="link-btn" target="_blank" rel="noopener noreferrer">
-            <img src="./images/onlyfans.webp" alt="Icono OnlyFans" class="icon">
+            <img src="./images/onlyfans.webp" alt="OnlyFans" class="icon">
             <span>ONLYFANS</span>
         </a>
-
     </div>
 </section>
 
@@ -148,7 +146,7 @@
         <div class="modal-content">
             <div class="modal-icon">✔</div>
             <h3 class="modal-title">Mensaje enviado</h3>
-            <p class="modal-text">Tu mensaje ha sido enviado correctamente. ¡Gracias por contactarme!</p>
+            <p class="modal-text">Tu mensaje ha sido enviado correctamente. Gracias por contactarme.</p>
             <button class="modal-close" id="modalCloseBtn">Cerrar</button>
         </div>
     </div>
@@ -179,8 +177,13 @@
     <p>2025 Copyright©. All Rights Reserved. "PABLITUS"® Inc. | La información publicada en esta Página Web está sujeta a cambios sin previo aviso.</p>
 </footer>
 
-<script src="./script.js"></script>
+<!-- Toast flotante -->
+<div id="toast" class="toast-hide">
+  <span class="toast-icon">✔</span>
+  <span class="toast-text">Mensaje enviado correctamente</span>
+</div>
 
+<script src="./script.js"></script>
 
 </body>
 </html>

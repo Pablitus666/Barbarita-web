@@ -1,5 +1,5 @@
 // ======================================================
-// script.js – Versión Profesional Optimizada Final (Revisada)
+// script.js – Versión Final Profesional + Popup Flotante
 // ======================================================
 
 (() => {
@@ -11,56 +11,51 @@
   const body = document.body;
   const themeToggle = document.getElementById("theme-toggle");
   const themeIcon = document.getElementById("theme-icon");
-  const LS_THEME = "ls_theme_mode"; // Valores esperados: "light" | "dark"
+  const LS_THEME = "ls_theme_mode";
 
   // ======================================================
-  // FUNCIÓN: APLICAR TEMA
+  // APLICAR TEMA
   // ======================================================
   function applyTheme(theme) {
     const isLight = theme === "light";
 
     body.classList.toggle("light-mode", isLight);
     themeIcon.src = isLight ? "./images/sun.png" : "./images/moon.png";
-    themeToggle?.setAttribute("aria-pressed", String(isLight));
+    themeToggle.setAttribute("aria-pressed", String(isLight));
 
-    try {
-      localStorage.setItem(LS_THEME, theme);
-    } catch {
-      // localStorage puede fallar (modo incógnito o restricciones)
-    }
+    const toast = document.getElementById("toast");
+    toast?.classList.toggle("light-mode", isLight);
+
+    localStorage.setItem(LS_THEME, theme);
   }
 
   // ======================================================
   // TEMA INICIAL
   // ======================================================
   (() => {
-    let savedTheme = "dark";
-
-    try {
-      savedTheme = localStorage.getItem(LS_THEME) || "dark";
-    } catch {}
-
+    const savedTheme = localStorage.getItem(LS_THEME) || "dark";
     applyTheme(savedTheme);
   })();
 
   // ======================================================
-  // LISTENER DE TOGGLE DE TEMA
+  // TOGGLE DE TEMA
   // ======================================================
-  themeToggle?.addEventListener("click", () => {
-    const isLight = body.classList.contains("light-mode");
-    const newTheme = isLight ? "dark" : "light";
-
+  themeToggle.addEventListener("click", () => {
+    const newTheme = body.classList.contains("light-mode") ? "dark" : "light";
     applyTheme(newTheme);
 
-    // Animación del botón
     themeToggle.animate(
-      [{ transform: "scale(1)" }, { transform: "scale(0.92)" }, { transform: "scale(1)" }],
+      [
+        { transform: "scale(1)" },
+        { transform: "scale(0.92)" },
+        { transform: "scale(1)" }
+      ],
       { duration: 220, easing: "ease-out" }
     );
   });
 
   // ======================================================
-  // PARALLAX OPTIMIZADO
+  // PARALLAX HEADER
   // ======================================================
   const bannerImg = document.querySelector(".header-banner .banner-img");
 
@@ -71,29 +66,21 @@
     const updateParallax = () => {
       const rectTop = bannerImg.getBoundingClientRect().top;
       const ratio = Math.min(Math.max(rectTop / winH, -1), 1);
-      const offset = ratio * -25;
-
-      bannerImg.style.transform = `translateY(${offset}px) scale(1.04)`;
+      bannerImg.style.transform = `translateY(${ratio * -25}px) scale(1.04)`;
       ticking = false;
     };
 
-    const scheduleUpdate = () => {
+    window.addEventListener("scroll", () => {
       if (!ticking) {
         requestAnimationFrame(updateParallax);
         ticking = true;
       }
-    };
+    });
 
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-
-    window.addEventListener(
-      "resize",
-      () => {
-        winH = window.innerHeight;
-        requestAnimationFrame(updateParallax);
-      },
-      { passive: true }
-    );
+    window.addEventListener("resize", () => {
+      winH = window.innerHeight;
+      requestAnimationFrame(updateParallax);
+    });
 
     requestAnimationFrame(updateParallax);
   }
@@ -124,14 +111,13 @@
   // ======================================================
   // FALLBACK GLOBAL PARA IMÁGENES
   // ======================================================
-  const fallbackImg = "./images/offline-image.png";
+  const fallback = "./images/offline-image.png";
 
   document.querySelectorAll("img").forEach(img => {
     img.addEventListener("error", () => {
       if (!img.dataset.fallback) {
         img.dataset.fallback = "1";
-        img.classList.add("img--fallback");
-        img.src = fallbackImg;
+        img.src = fallback;
       }
     });
   });
@@ -143,105 +129,75 @@
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightbox-img");
 
-  const closeLightbox = () => {
-    lightbox.classList.add("hidden");
-    lightbox.setAttribute("aria-hidden", "true");
-    lightboxImg.src = "";
-    body.style.overflow = "";
-  };
-
   if (gallery && lightbox && lightboxImg) {
-    gallery.addEventListener("click", event => {
-      const img = event.target;
-
-      if (img.tagName === "IMG") {
-        lightboxImg.src = img.src;
+    gallery.addEventListener("click", e => {
+      if (e.target.tagName === "IMG") {
+        lightboxImg.src = e.target.src;
         lightbox.classList.remove("hidden");
         lightbox.setAttribute("aria-hidden", "false");
         body.style.overflow = "hidden";
       }
     });
 
-    lightbox.addEventListener("click", event => {
-      if (event.target === lightbox) closeLightbox();
+    lightbox.addEventListener("click", e => {
+      if (e.target === lightbox) {
+        lightbox.classList.add("hidden");
+        lightbox.setAttribute("aria-hidden", "true");
+        body.style.overflow = "";
+      }
     });
 
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && !lightbox.classList.contains("hidden")) {
-        closeLightbox();
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        lightbox.classList.add("hidden");
+        lightbox.setAttribute("aria-hidden", "true");
+        body.style.overflow = "";
       }
     });
   }
 
   // ======================================================
-  // PERF EXTRA (Recuperar parallax al volver de otra pestaña)
+  // POPUP FLOTANTE (TOAST)
   // ======================================================
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden && bannerImg) {
-      requestAnimationFrame(() => {
-        bannerImg.style.transform = "translateY(0) scale(1.03)";
-      });
-    }
-  });
+  function showToast(message = "Mensaje enviado correctamente") {
+    const toast = document.getElementById("toast");
+    const text = toast.querySelector(".toast-text");
 
-})(); // FIN DEL IIFE PRINCIPAL
+    text.textContent = message;
+    toast.classList.add("toast-show");
 
+    setTimeout(() => {
+      toast.classList.remove("toast-show");
+    }, 3000);
+  }
 
+  // ======================================================
+  // NETLIFY FORM SUBMIT (sin redirección)
+  // ======================================================
+  const form = document.getElementById("contact-form");
 
-// ======================================================
-// SERVICE WORKER
-// ======================================================
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then(reg => {
-        reg.onupdatefound = () => {
-          const installing = reg.installing;
-          if (installing) {
-            installing.onstatechange = () => {
-              if (installing.state === "installed") {
-                console.log("Service worker instalado/actualizado.");
-              }
-            };
-          }
-        };
-      })
-      .catch(err => console.warn("Service Worker registration failed:", err));
-  });
-}
+  if (form) {
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
 
-// ======================================================
-// CONFIRMACIÓN DE FORMULARIO NETLIFY
-// ======================================================
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form[data-netlify]");
-  if (!form) return;
+      const formData = new FormData(form);
 
-  form.addEventListener("submit", event => {
-    event.preventDefault();
+      // IMPORTANTE: convertir FormData → x-www-form-urlencoded
+      const encoded = new URLSearchParams(formData).toString();
 
-    const formData = new FormData(form);
+      try {
+        await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encoded
+        });
 
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData).toString()
-    })
-      .then(() => {
-        // Limpia el formulario
+        showToast();
         form.reset();
-
-        // Muestra mensaje elegante (sin cambiar estilos)
-        alert("Gracias. Tu mensaje fue enviado correctamente.");
-
-        // Si quieres un mensaje visual en la página en vez del alert:
-        // document.getElementById("form-success").classList.add("visible");
-      })
-      .catch(err => {
-        alert("Hubo un error al enviar tu mensaje.");
-        console.error("Error:", err);
-      });
-  });
-});
-
+      } catch (err) {
+        showToast("Hubo un error. Intenta nuevamente.");
+        console.error(err);
+      }
+    });
+  }
+})();

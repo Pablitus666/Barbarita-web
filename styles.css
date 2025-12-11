@@ -523,184 +523,51 @@ button[type="submit"]:hover {
     border: none !important;
 }
 
-/* ===========================
-   MODAL PROFESIONAL DE ÉXITO
-   =========================== */
-
-.modal {
+/* ============================================================
+   TOAST MODERNO (FINAL)
+============================================================ */
+#toast {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(4px);
+    bottom: 28px;
+    right: 28px;
+    background: rgba(20,20,20,0.92);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 14px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
-    z-index: 9999;
+    gap: 12px;
+    font-size: 1rem;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+
     opacity: 0;
     pointer-events: none;
-    transition: opacity .35s ease;
+    transform: translateY(20px);
+    transition: opacity .35s ease, transform .35s ease;
+    z-index: 99999;
 }
 
-.modal.show {
+#toast.show {
     opacity: 1;
     pointer-events: auto;
+    transform: translateY(0);
 }
 
-.modal-content {
-    background: var(--color-bg, #ffffff);
-    color: var(--color-text, #000000);
-    padding: 25px 30px;
-    border-radius: 16px;
-    width: 95%;
-    max-width: 380px;
-    text-align: center;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-    animation: modalPop .45s ease;
+.toast-icon {
+    font-size: 1.4rem;
 }
 
-@keyframes modalPop {
-    0% { transform: scale(.65); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+.toast-icon.success {
+    color: #6CFA8D;
 }
 
-.modal-icon {
-    font-size: 42px;
-    color: #20c997;
-    margin-bottom: 10px;
-    font-weight: bold;
+.toast-icon.error {
+    color: #FF6B6B;
 }
 
-.modal-title {
-    font-size: 22px;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.modal-text {
-    font-size: 16px;
-    opacity: .85;
-    margin-bottom: 18px;
-}
-
-.modal-close {
-    padding: 10px 18px;
-    background: #20c997;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background .25s ease;
-}
-
-.modal-close:hover {
-    background: #17a589;
-}
-
-.hidden {
-    display: none;
-}
-
-/* ============================================================
-   POPUP PREMIUM (Integrado según tu nuevo JS)
-============================================================ */
-.popup-message {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    padding: 16px 22px;
-    background: rgba(20,20,20,0.55);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    z-index: 99999;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all .35s ease;
-}
-
-.popup-content {
-    display: flex;
-    align-items: center;
-}
-
-.popup-message p {
-    margin: 0;
-    color: #fff;
-    font-size: 1rem;
-}
-
-.popup-icon {
-    font-size: 1.5rem;
-    margin-right: 10px;
-}
-
-.popup-icon.success { color: #6CFA8D; }
-.popup-icon.error { color: #FF6B6B; }
-
-/* ============================================================
-   MODAL DE CONFIRMACIÓN - ESTADO VISIBLE
-============================================================ */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(4px);
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity .3s ease, visibility .3s ease;
-}
-
-.modal.show {
-    display: flex;
-    visibility: visible;
-    opacity: 1;
-}
-
-.modal-content {
-    background: #ffffff;
-    padding: 25px 35px;
-    border-radius: 12px;
-    max-width: 380px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-}
-
-.modal-icon {
-    font-size: 40px;
-    color: #28a745;
-    margin-bottom: 10px;
-}
-
-.modal-title {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 700;
-}
-
-.modal-text {
-    margin: 10px 0 20px 0;
-    font-size: 16px;
-}
-
-.modal-close {
-    padding: 10px 20px;
-    font-size: 15px;
-    border: none;
-    background: #28a745;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 8px;
+/* Garantizar que el toast siempre esté arriba */
+#toast {
+    z-index: 999999 !important;
 }
