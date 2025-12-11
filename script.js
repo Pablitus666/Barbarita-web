@@ -159,13 +159,20 @@
   // ======================================================
   // POPUP FLOTANTE (TOAST)
   // ======================================================
-  function showToast(message = "Mensaje enviado correctamente") {
+  function showToast(message = "Acción completada", type = "success") {
     const toast = document.getElementById("toast");
-    const text = toast.querySelector(".toast-text");
+    if (!toast) return;
 
+    const text = toast.querySelector(".toast-text");
     text.textContent = message;
+
+    // Limpiar clases anteriores y añadir las nuevas
+    toast.classList.remove("success", "error");
+    toast.classList.add(type); // 'success' o 'error'
+    
     toast.classList.add("toast-show");
 
+    // Ocultar el toast después de 3 segundos
     setTimeout(() => {
       toast.classList.remove("toast-show");
     }, 3000);
@@ -198,11 +205,11 @@
           throw new Error(`Error en el servidor: ${response.status}`);
         }
 
-        showToast("Mensaje enviado correctamente");
+        showToast("Mensaje enviado correctamente", "success");
         form.reset();
 
       } catch (err) {
-        showToast("Hubo un error. Intenta nuevamente.");
+        showToast("Hubo un error. Intenta nuevamente.", "error");
         console.error("Error al enviar formulario:", err);
       }
     });

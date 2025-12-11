@@ -530,8 +530,11 @@ button[type="submit"]:hover {
     position: fixed;
     bottom: 28px;
     right: 28px;
-    background: rgba(20,20,20,0.92);
-    color: #fff;
+    
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--card-border);
+
     padding: 14px 20px;
     border-radius: 14px;
     display: flex;
@@ -540,12 +543,11 @@ button[type="submit"]:hover {
     font-size: 1rem;
     box-shadow: 0 8px 28px rgba(0,0,0,0.45);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.15);
 
     opacity: 0;
     pointer-events: none;
     transform: translateY(20px);
-    transition: opacity .35s ease, transform .35s ease;
+    transition: opacity .35s ease, transform .35s ease, border-color .35s ease;
     z-index: 99999;
 }
 
@@ -557,14 +559,44 @@ button[type="submit"]:hover {
 
 .toast-icon {
     font-size: 1.4rem;
+    transition: color 0.35s ease;
 }
 
-.toast-icon.success {
-    color: #6CFA8D;
+/* Estilos de Éxito y Error */
+#toast.success {
+    border-color: var(--accent);
+}
+#toast.success .toast-icon {
+    color: var(--accent);
 }
 
-.toast-icon.error {
-    color: #FF6B6B;
+#toast.error {
+    border-color: var(--danger);
+}
+#toast.error .toast-icon {
+    color: var(--danger);
+}
+
+/* --- Modo Claro --- */
+.light-mode #toast {
+    box-shadow: 0 8px 28px var(--shadow-light);
+}
+.light-mode #toast.success {
+    background: var(--accent);
+    color: #fff;
+    border-color: rgba(255,255,255,0.5);
+}
+.light-mode #toast.success .toast-icon {
+    color: #fff;
+}
+
+.light-mode #toast.error {
+    background: var(--danger);
+    color: #fff;
+    border-color: rgba(255,255,255,0.5);
+}
+.light-mode #toast.error .toast-icon {
+    color: #fff;
 }
 
 /* Garantizar que el toast siempre esté arriba */
