@@ -161,7 +161,7 @@
         data-netlify="true"
         netlify-honeypot="bot-field"
         class="contact-form"
-        id="contactForm"
+        id="contact-form"
     >
         <input type="hidden" name="form-name" value="contacto">
 
@@ -187,18 +187,16 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-    const form = document.getElementById("contactForm");
+    const form = document.getElementById("contact-form");
     const modal = document.getElementById("modal-success");
     const modalCloseBtn = document.getElementById("modalCloseBtn");
 
-    // Función para codificar datos para Netlify
     function encode(data) {
         return Object.keys(data)
             .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
             .join("&");
     }
 
-    // Manejo del envío del formulario
     form.addEventListener("submit", function(e) {
         e.preventDefault();
 
@@ -221,12 +219,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((error) => alert("Error al enviar: " + error));
     });
 
-    // Cerrar modal al presionar el botón
     modalCloseBtn.addEventListener("click", () => {
         modal.classList.remove("show");
     });
 
-    // Cerrar modal haciendo clic fuera de la tarjeta
     modal.addEventListener("click", (e) => {
         if (e.target === modal) {
             modal.classList.remove("show");
@@ -234,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 </script>
-
 
 </body>
 </html>
