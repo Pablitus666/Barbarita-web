@@ -1,5 +1,5 @@
 // ======================================================
-// script.js – Versión Profesional Optimizada Final
+// script.js – Versión Profesional Optimizada Final (Revisada)
 // ======================================================
 
 (() => {
@@ -25,7 +25,9 @@
 
     try {
       localStorage.setItem(LS_THEME, theme);
-    } catch {}
+    } catch {
+      // localStorage puede fallar (modo incógnito o restricciones)
+    }
   }
 
   // ======================================================
@@ -50,12 +52,9 @@
 
     applyTheme(newTheme);
 
+    // Animación del botón
     themeToggle.animate(
-      [
-        { transform: "scale(1)" },
-        { transform: "scale(0.92)" },
-        { transform: "scale(1)" }
-      ],
+      [{ transform: "scale(1)" }, { transform: "scale(0.92)" }, { transform: "scale(1)" }],
       { duration: 220, easing: "ease-out" }
     );
   });
@@ -175,7 +174,7 @@
   }
 
   // ======================================================
-  // PERF EXTRA
+  // PERF EXTRA (Recuperar parallax al volver de otra pestaña)
   // ======================================================
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden && bannerImg) {
@@ -185,7 +184,9 @@
     }
   });
 
-})();
+})(); // FIN DEL IIFE PRINCIPAL
+
+
 
 // ======================================================
 // SERVICE WORKER
@@ -210,11 +211,13 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-// ======================================================
-// POPUP ESTILIZADO – CONFIRMACIÓN DE ENVÍO DE FORMULARIO
-// ======================================================
 
+
+// ======================================================
+// POPUP MODERNO + ENVÍO NETLIFY FORMS
+// ======================================================
 document.addEventListener("DOMContentLoaded", () => {
+
   const form = document.getElementById("contact-form");
   if (!form) return;
 
@@ -229,69 +232,46 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then(() => {
         form.reset();
-        showPopup("Mensaje enviado correctamente", "success");
+        showPopup("Mensaje enviado correctamente");
       })
       .catch(() => {
-        showPopup("Hubo un error al enviar el mensaje", "error");
+        showPopup("Error al enviar el mensaje");
       });
   });
 });
 
+
 // ======================================================
-// POPUP PREMIUM
+// POPUP MODERNO
 // ======================================================
-function showPopup(message, type = "success") {
+function showPopup(message) {
   const popup = document.createElement("div");
 
-  popup.className = "popup-message";
   popup.innerHTML = `
-      <div class="popup-content">
-          <div class="popup-icon ${type}">
-              ${type === "success" ? "✔" : "✖"}
-          </div>
-          <p>${message}</p>
-      </div>
+    <div style="
+      display:flex;
+      gap:12px;
+      align-items:center;
+    ">
+      <span style="font-size:22px;">📩</span>
+      <span>${message}</span>
+    </div>
   `;
 
-  Object.assign(popup.style, {
-    position: "fixed",
-    bottom: "30px",
-    right: "30px",
-    padding: "0",
-    backdropFilter: "blur(12px)",
-    background: "rgba(20,20,20,0.55)",
-    border: "1px solid rgba(255,255,255,0.2)",
-    borderRadius: "16px",
-    boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
-    zIndex: "99999",
-    opacity: "0",
-    transform: "translateY(20px)",
-    transition: "all .35s ease",
-    padding: "16px 22px"
-  });
-
-  const iconStyle = `
-      .popup-icon {
-          font-size: 1.5rem;
-          display: inline-block;
-          margin-right: 10px;
-      }
-      .popup-icon.success { color: #6CFA8D; }
-      .popup-icon.error { color: #FF6B6B; }
-      .popup-message p {
-          margin: 0;
-          color: #fff;
-          font-size: 1rem;
-      }
-      .popup-content {
-          display: flex;
-          align-items: center;
-      }
-  `;
-
-  const styleTag = document.createElement("style");
-  styleTag.innerHTML = iconStyle;
-  document.head.appendChild(styleTag);
+  popup.style.position = "fixed";
+  popup.style.bottom = "25px";
+  popup.style.right = "25px";
+  popup.style.padding = "16px 22px";
+  popup.style.background = "rgba(20,20,20,0.7)";
+  popup.style.backdropFilter = "blur(10px)";
+  popup.style.color = "#fff";
+  popup.style.fontSize = "1rem";
+  popup.style.borderRadius = "14px";
+  popup.style.boxShadow = "0 6px 20px rgba(0,0,0,0.35)";
+  popup.style.opacity = "0";
+  popup.style.transform = "translateY(25px)";
+  popup.style.transition = "all .35s ease";
+  popup.style.zIndex = "9999";
 
   document.body.appendChild(popup);
 
