@@ -569,7 +569,7 @@ button[type="submit"]:hover {
 
 .modal-icon {
     font-size: 42px;
-    color: #20c997; /* verde profesional */
+    color: #20c997;
     margin-bottom: 10px;
     font-weight: bold;
 }
@@ -601,7 +601,45 @@ button[type="submit"]:hover {
     background: #17a589;
 }
 
-/* Ocultación */
 .hidden {
     display: none;
 }
+
+/* ============================================================
+   POPUP PREMIUM (Integrado según tu nuevo JS)
+============================================================ */
+.popup-message {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 16px 22px;
+    background: rgba(20,20,20,0.55);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    z-index: 99999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all .35s ease;
+}
+
+.popup-content {
+    display: flex;
+    align-items: center;
+}
+
+.popup-message p {
+    margin: 0;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.popup-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.popup-icon.success { color: #6CFA8D; }
+.popup-icon.error { color: #FF6B6B; }
+
