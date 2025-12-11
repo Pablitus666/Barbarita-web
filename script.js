@@ -183,6 +183,7 @@
       });
     }
   });
+
 })();
 
 // ======================================================
@@ -206,4 +207,64 @@ if ("serviceWorker" in navigator) {
       })
       .catch(err => console.warn("Service Worker registration failed:", err));
   });
+}
+
+// ======================================================
+// POPUP ESTILIZADO – CONFIRMACIÓN DE ENVÍO DE FORMULARIO
+// ======================================================
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    // Enviar formulario (Netlify)
+    const formData = new FormData(form);
+
+    fetch("/", {
+      method: "POST",
+      body: formData,
+    })
+      .then(() => {
+        form.reset();
+        showPopup("Mensaje enviado correctamente ✔");
+      })
+      .catch(() => {
+        showPopup("Hubo un error al enviar el mensaje ❌");
+      });
+  });
+});
+
+// Popup visual
+function showPopup(message) {
+  const popup = document.createElement("div");
+
+  popup.textContent = message;
+  popup.style.position = "fixed";
+  popup.style.bottom = "20px";
+  popup.style.right = "20px";
+  popup.style.padding = "14px 22px";
+  popup.style.background = "var(--color-accent)";
+  popup.style.color = "#fff";
+  popup.style.fontSize = "1rem";
+  popup.style.borderRadius = "12px";
+  popup.style.boxShadow = "0 4px 14px rgba(0,0,0,0.25)";
+  popup.style.opacity = "0";
+  popup.style.transform = "translateY(20px)";
+  popup.style.transition = "all .35s ease";
+  popup.style.zIndex = "9999";
+
+  document.body.appendChild(popup);
+
+  requestAnimationFrame(() => {
+    popup.style.opacity = "1";
+    popup.style.transform = "translateY(0)";
+  });
+
+  setTimeout(() => {
+    popup.style.opacity = "0";
+    popup.style.transform = "translateY(20px)";
+    setTimeout(() => popup.remove(), 400);
+  }, 3000);
 }
