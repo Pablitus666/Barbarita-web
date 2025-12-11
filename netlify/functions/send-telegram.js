@@ -1,8 +1,5 @@
 // netlify/functions/send-telegram.js
 
-// Usamos fetch, que está disponible globalmente en las funciones de Netlify
-const fetch = require('node-fetch');
-
 exports.handler = async function (event) {
   // Solo permitir peticiones POST
   if (event.httpMethod !== 'POST') {
