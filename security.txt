@@ -1,0 +1,6 @@
+Contact: mailto:pharmakoz@gmail.com
+Encryption: https://tusitio.netlify.app/pgp-key.txt
+Acknowledgements: https://tusitio.netlify.app/security-acknowledgements
+Preferred-Languages: en, es
+Policy: https://tusitio.netlify.app/security-policy.html
+Hiring: security@tusitio.netlify.app
