@@ -3,7 +3,7 @@
 Developer: Pablitus
 Role: Diseño & Desarrollo frontend
 Email: pharmakoz@gmail.com
-Site: https://tusitio.netlify.app/
+Site: https://barbarita.netlify.app/
 
 /* THANKS */
 Thanks: Open-source community, Netlify
