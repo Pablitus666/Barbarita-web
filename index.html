@@ -181,52 +181,6 @@
 
 <script src="./script.js"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    const form = document.getElementById("contact-form");
-    const modal = document.getElementById("modal-success");
-    const modalCloseBtn = document.getElementById("modalCloseBtn");
-
-    function encode(data) {
-        return Object.keys(data)
-            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-            .join("&");
-    }
-
-    form.addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        const data = {
-            "form-name": "contacto",
-            "name": form.querySelector("#name").value,
-            "email": form.querySelector("#email").value,
-            "message": form.querySelector("#message").value
-        };
-
-        fetch("/", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: encode(data)
-        })
-        .then(() => {
-            form.reset();
-            modal.classList.add("show");
-        })
-        .catch((error) => alert("Error al enviar: " + error));
-    });
-
-    modalCloseBtn.addEventListener("click", () => {
-        modal.classList.remove("show");
-    });
-
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.classList.remove("show");
-        }
-    });
-});
-</script>
 
 </body>
 </html>
